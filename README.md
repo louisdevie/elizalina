@@ -1,2 +1,2 @@
-# elizalina
+# :sparkles: elizalina
 JavaScript translation library
