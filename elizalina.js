@@ -1,4 +1,4 @@
-let elizalina = {
+const elizalina = {
 	__languages: [],
 	__lookup: {},
 	__fallback: "en",
@@ -13,7 +13,7 @@ let elizalina = {
 
 	noFallback: function () {
 		this.__fallback = undefined;
-	}
+	},
 
 	addLanguage: function (source, targetIds) {
 		this.__insertLanguageData(
