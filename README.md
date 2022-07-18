@@ -2,6 +2,11 @@
 
 Client-side JavaScript translation utility
 
+## Features
+
+* Automatic user language detection
+* That's about it
+
 ## Setup
 
 ### Hosting the script yourself
@@ -20,6 +25,7 @@ Alternatively, you can get the script from [jsDelivr](https://jsdelivr.com) :
 ```html
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@1/elizalina.min.js"></script>
 ```
+
 
 ## Usage
 
@@ -66,3 +72,5 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
 </body>
 </html>
 ```
+
+See the [documentation](DOC.md) for more details.
