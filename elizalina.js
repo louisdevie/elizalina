@@ -11,6 +11,10 @@ let elizalina = {
 		return this.__fallback;
 	},
 
+	noFallback: function () {
+		this.__fallback = undefined;
+	}
+
 	addLanguage: function (source, targetIds) {
 		this.__insertLanguageData(
 			{
@@ -22,12 +26,7 @@ let elizalina = {
 	},
 
 	loadLanguage: async function (source, targetIds) {
-		try {
-			const response = await fetch(source);
-		}
-		catch {
-			throw "ELIZALINA: unable to fetch <" + source + ">"
-		}
+		const response = await this.__fetch(source);
 		const data = await response.json();
 
 		this.loadLanguageObject(data, targetIds);
@@ -48,19 +47,28 @@ let elizalina = {
 	},
 
 	fillDocument: async function (langId) {
-		let fallback = await this.__getLanguage(this.__fallback);
-		document.documentElement.lang = this.__fallback;
+		// a list of the accepted languages for the user
+		// contains:
+		// - only `langId` if it is given
+		// - `navigator.languages` if it supported
+		// - only `navigator.language` if it is supported
+		// - otherwise nothing
+		let accept = langId ? [langId] : (navigator.languages || [navigator.language] || []);
 
-
-		let accept = langId ? [langId] : (navigator.languages || [navigator.language]);
-
-		let userLanguage = {};
+		// take the fist available language
+		let userLanguage;
 		for (const id of accept) {
-			if (this.__lookup[id] != undefined) {
+			if (this.isAvailable(id)) {
 				userLanguage = await this.__getLanguage(id);
 				document.documentElement.lang = id;
 				break;
 			}
+		}
+
+		let fallback = await this.__getLanguage(this.__fallback);
+		if (userLanguage === undefined) {
+			userlanguage = {};
+			document.documentElement.lang = this.__fallback;
 		}
 
 		let key, content;
@@ -99,13 +107,8 @@ let elizalina = {
 	},
 
 	__getLanguage: async function (langId) {
-		let key = this.__lookup[langId]
-
-		if (key === undefined) {
-			return {};
-		}
-		else {
-			let lang = this.__languages[key];
+		if (this.isAvailable(langId)) {
+			let lang = this.__languages[this.__lookup[langId]];
 
 			if (!lang.loaded) {
 				const response = await this.__fetch(lang.source);
@@ -114,6 +117,8 @@ let elizalina = {
 			}
 
 			return lang.data;
+		} else {
+			return {};
 		}
 	},
 
