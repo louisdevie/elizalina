@@ -5,7 +5,17 @@ Client-side JavaScript translation utility
 ## Features
 
 * Automatic user language detection
-* That's about it
+* ... and that's about it
+
+## Compatibility
+
+Should work with :
+* Chrome : 55+ (103 on mobile)
+* Edge : 15+
+* Safari : 11+
+* Firefox : 52+ (101 on mobile)
+* Opera : 42+ (64 on mobile)
+* *IE is not supported*
 
 ## Setup
 
@@ -74,3 +84,8 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
 ```
 
 See the [documentation](DOC.md) for more details.
+
+
+## License
+
+Elizalina is licensed under the [MIT License](https://github.com/louisdevie/elizalina/blob/main/LICENSE). **The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.**
