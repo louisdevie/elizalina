@@ -1,4 +1,4 @@
-# Elizalina documentation (v1.1.0)
+# Elizalina documentation (v1.1.1)
 
 
 
