@@ -5,7 +5,7 @@ Client-side JavaScript translation utility
 ## Features
 
 * Automatic user language detection
-* Fallback system if transaltion is incomplete
+* Fallback system if a translation is incomplete
 * ... and that's about it
 
 ## Compatibility
