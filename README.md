@@ -56,7 +56,7 @@ The JSON files must have the following structure :
 
 Then, all the html tags will classes `elz` and `_my_key` will have their content replaced by the entry matching "my_key" (notice how the leading underscore is necessary but trimmed afterwards).
 
-### Fully working example
+### Working example
 
 ```html
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
   <span class="elz _example">It works!</span>
   
   <script>
-    // we load the language resource manually so it's embedded
+    // embed the translation in the document
     elizalina.loadLanguageObject({"example": "Es klappt!"}, "de");
     // force the page to be in german
     elizalina.fillDocument("de");
