@@ -16,7 +16,7 @@ Should work with :
 
 ### Hosting the script yourself
 
-Download the [latest minified version](https://github.com/louisdevie/elizalina/releases/download/v1.1.1/elizalina.min.js)
+Download the [latest minified version](https://github.com/louisdevie/elizalina/releases/download/v2.0.0/elizalina.min.js)
 and add it to the static resources of your site, then include it in the head of your pages :
 
 ```html
@@ -28,7 +28,7 @@ and add it to the static resources of your site, then include it in the head of 
 Alternatively, you can get the script from [jsDelivr](https://jsdelivr.com) :
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@1.1.1/elizalina.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.0.0/elizalina.min.js"></script>
 ```
 
 
@@ -63,7 +63,7 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@1.1.1/elizalina.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.0.0/elizalina.min.js"></script>
 </head>
 <body>
   <span class="elz _example">It works!</span>
