@@ -1,19 +1,6 @@
 const elizalina = {
 	__languages: [],
 	__lookup: {},
-	__fallback: "en",
-
-	setFallback: function (langId) {
-		this.__fallback = langId;
-	},
-
-	getFallback: function () {
-		return this.__fallback;
-	},
-
-	noFallback: function () {
-		this.__fallback = undefined;
-	},
 
 	addLanguage: function (source, targetIds) {
 		this.__insertLanguageData(
@@ -51,45 +38,48 @@ const elizalina = {
 		// contains:
 		// - only `langId` if it is given
 		// - `navigator.languages` if it supported
-		// - only `navigator.language` if it is supported
-		// - otherwise nothing
-		let accept = langId ? [langId] : (navigator.languages || [navigator.language] || []);
+		// - only `navigator.language`
+		let accept = langId ? [langId] : (navigator.languages || [navigator.language]);
+
+		let base = document.documentElement.lang;
 
 		// take the fist available language
-		let userLanguage;
+		let userLanguage, userLanguageId;
 		for (const id of accept) {
 			if (this.isAvailable(id)) {
 				userLanguage = await this.__getLanguage(id);
-				document.documentElement.lang = id;
+				userLanguageId = id;
+				break;
+			}
+			else if (id === base) {
 				break;
 			}
 		}
 
-		let fallback = await this.__getLanguage(this.__fallback);
-		if (userLanguage === undefined) {
-			userlanguage = {};
-			document.documentElement.lang = this.__fallback;
-		}
+		if (userLanguage !== undefined) {
+			let key, content;
 
-		let key, content;
-
-		for (let node of document.getElementsByClassName("elz")) {
-			key = undefined;
-			for (const cls of node.classList) {
-				if (cls.startsWith("_")) {
-					key = cls.substring(1);
-					break;
+			for (let node of document.getElementsByClassName("elz")) {
+				key = undefined;
+				for (const cls of node.classList) {
+					if (cls.startsWith("_")) {
+						key = cls.substring(1);
+						break;
+					}
+				}
+				if (key !== undefined) {
+					content = userLanguage[key];
+					if (content !== undefined) {
+						node.innerText = content;
+					}
+					else
+					{
+						console.warn("missing #" + key + " in " + userLanguageId + " translation")
+					}
 				}
 			}
-			if (key !== undefined) {
-				content = userLanguage[key] || fallback[key];
-				if (content !== undefined) {
-					node.innerText = content;
-				}
-				else {
-					node.innerText = "<missing #" + key + ">";
-				}
-			}
+
+			document.documentElement.lang = userLanguageId;
 		}
 	},
 

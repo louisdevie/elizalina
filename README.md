@@ -2,12 +2,6 @@
 
 Client-side JavaScript translation utility
 
-## Features
-
-* Automatic user language detection
-* Fallback system if a translation is incomplete
-* ... and that's about it
-
 ## Compatibility
 
 Should work with :
@@ -66,19 +60,19 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@1.1.1/elizalina.min.js"></script>
 </head>
 <body>
-  <span class="elz _example">...</example>
+  <span class="elz _example">It works!</span>
   
   <script>
     // we load the language resource manually so it's embedded
-    elizalina.loadLanguageObject({"example": "Hello, World!"}, "en");
-    // force the page to be in english
-    elizalina.fillDocument("en");
+    elizalina.loadLanguageObject({"example": "Es klappt!"}, "de");
+    // force the page to be in german
+    elizalina.fillDocument("de");
   </script>
 </body>
 </html>

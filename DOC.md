@@ -1,39 +1,4 @@
-# Elizalina documentation (v1.1.1)
-
-
-
-## `elizalina.setFallback(langId)`
-
-Sets the fallback language.
-
-### Parameters :
-- `langId` *(string)* : the id of the language (e.g. "en" or "en-US")
-
-### Returns :
-*nothing*
-
-
-
-## `elizalina.getFallback()`
-
-Get the current fallback language.
-
-### Returns :
-The language id *(string)*
-
-
-
-## `elizalina.noFallback()`
-
-Disable the fallback system.
-If you are sure that everything is correctly translated, it can improve the performance of `fillDocument`.
-
-Use `setFallback` to re-enable it.
-
-### Returns :
-*nothing*
-
-
+# Elizalina documentation (v2.0.0)
 
 ## `elizalina.addLanguage(source, targetIds)`
 
@@ -101,9 +66,8 @@ Check if one of the translations added supports that language.
 
 ## `elizalina.fillDocument(langId)`
 
-Fill the HTML tags which have the "elz" class with the corresponding text.
+Translate the HTML tags which have the "elz" class.
 
-This is the core of the translation system.
 If `langId` is not specified, the first language of the navigator that has a translation
 available will be used.
 
@@ -116,9 +80,9 @@ you will need to split the content into multiple tags using `<span>`s for the no
 
 ```html
 <div>ref
-  <span class="elz _text_before_link"></span>
-  <a class="elz _link" href="#ref"></a>
-  <span class="elz _text_after_link"></span>
+  <span class="elz _text_before_link">Click</span>
+  <a class="elz _link" href="#ref">here</a>
+  <span class="elz _text_after_link">to download the latest version</span>
 </div>
 ```
 
@@ -128,4 +92,4 @@ In addition, the `lang` attribute of the document is set to the language used.
 - `langId` *(string, optional)* : the id of the language to fill the document with
 
 ### Returns :
-A promise that fulfills when all the text has been written.
+A promise that fulfills when all the document has been translated.
