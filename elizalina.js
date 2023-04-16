@@ -1,31 +1,41 @@
+/**
+ * Client-side translation tool.
+ * 
+ * @author Louis DEVIE
+ * @version 2.1.0-dev
+ */
+
 const elizalina = {
 	__languages: [],
 	__lookup: {},
+	__fallback: [],
 
-	addLanguage: function (source, targetIds) {
+	addLanguage: function (source, targetIds, ...otherTargets) {
 		this.__insertLanguageData(
 			{
 				loaded: false,
 				source: source,
 			},
-			targetIds
+			targetIds,
+			otherTargets,
 		);
 	},
 
-	loadLanguage: async function (source, targetIds) {
+	loadLanguage: async function (source, targetIds, ...otherTargets) {
 		const response = await this.__fetch(source);
 		const data = await response.json();
 
-		this.loadLanguageObject(data, targetIds);
+		this.loadLanguageObject(data, targetIds, ...otherTargets);
 	},
 
-	loadLanguageObject: function (object, targetIds) {
+	loadLanguageObject: function (object, targetIds, ...otherTargets) {
 		this.__insertLanguageData(
 			{
 				loaded: true,
 				data: object,
 			},
-			targetIds
+			targetIds,
+			otherTargets,
 		);
 	},
 
@@ -33,13 +43,16 @@ const elizalina = {
 		return this.__lookup.hasOwnProperty(langId);
 	},
 
-	fillDocument: async function (langId) {
-		// a list of the accepted languages for the user
-		// contains:
-		// - only `langId` if it is given
-		// - `navigator.languages` if it supported
-		// - only `navigator.language`
-		let accept = langId ? [langId] : (navigator.languages || [navigator.language]);
+	fillDocument: async function (...langIds) {
+		let accept;
+		if (langIds) {
+			accept = langIds;
+		}
+		else {
+			accept = navigator.languages || [navigator.language];
+		}
+
+		if (this.__fallback) accept.push(this.__fallback);
 
 		let base = document.documentElement.lang;
 
@@ -81,9 +94,15 @@ const elizalina = {
 
 			document.documentElement.lang = userLanguageId;
 		}
+
+		return userLanguageId;
 	},
 
-	__insertLanguageData: function (data, targetIds) {
+	setFallback: function (langId) {
+		this.__fallback = langId;
+	},
+
+	__insertLanguageData: function (data, targetIds, otherTargetIds) {
 		if (!Array.isArray(targetIds)) {
 			targetIds = [targetIds];
 		}
@@ -91,25 +110,21 @@ const elizalina = {
 		this.__languages.push(data);
 		const index = this.__languages.length - 1;
 
-		for (const id of targetIds) {
+		for (const id of targetIds.concat(otherTargetIds)) {
 			this.__lookup[id] = index;
 		}
 	},
 
 	__getLanguage: async function (langId) {
-		if (this.isAvailable(langId)) {
-			let lang = this.__languages[this.__lookup[langId]];
+		let lang = this.__languages[this.__lookup[langId]];
 
-			if (!lang.loaded) {
-				const response = await this.__fetch(lang.source);
-				lang.data = await response.json();
-				lang.loaded = true;
-			}
-
-			return lang.data;
-		} else {
-			return {};
+		if (!lang.loaded) {
+			const response = await this.__fetch(lang.source);
+			lang.data = await response.json();
+			lang.loaded = true;
 		}
+
+		return lang.data;
 	},
 
 	__fetch: async function (url) {
@@ -117,7 +132,7 @@ const elizalina = {
 			return await fetch(url);
 		}
 		catch {
-			throw "ELIZALINA: unable to fetch <" + url + ">"
+			throw "ELIZALINA: unable to fetch <" + url + ">";
 		}
 	},
 };

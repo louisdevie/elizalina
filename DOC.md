@@ -1,6 +1,6 @@
 # Elizalina documentation (v2.0.0)
 
-## `elizalina.addLanguage(source, targetIds)`
+## `elizalina.addLanguage(source, targetIds, ...otherTargets)`
 
 Add a new translation from a JSON file. The data will only be loaded when required.
 
@@ -18,13 +18,14 @@ The translations files should have the following structure :
 ### Parameters :
 - `source` *(string)* : the URL of the JSON file
 - `targetIds` *(string* or *array of strings)* : the id(s) of the language(s) supported by that translation.
+- `otherTargets` *(string)* : another way of passing target IDs.
 
 ### Returns :
 *nothing*
 
 
 
-## `elizalina.loadLanguage(source, targetIds)`
+## `elizalina.loadLanguage(source, targetIds, ...otherTargets)`
 
 Add a new translation from a JSON file, loading it instantly.
 
@@ -33,19 +34,21 @@ Add a new translation from a JSON file, loading it instantly.
 ### Parameters :
 - `source` *(string)* : the URL of the JSON file
 - `targetIds` *(string* or *array of strings)* : the id(s) of the language(s) supported by that translation.
+- `otherTargets` *(string)* : another way of passing target IDs.
 
 ### Returns :
 A promise that will be fulfilled when the language is loaded.
 
 
 
-## `elizalina.loadLanguageObject(object, targetIds)`
+## `elizalina.loadLanguageObject(object, targetIds, ...otherTargets)`
 
 Add a new translation from a JavaScript object.
 
 ### Parameters :
 - `object` *(object)* : the translation, structured like the JSON files.
 - `targetIds` *(string* or *array of strings)* : the id(s) of the language(s) supported by that translation.
+- `otherTargets` *(string)* : another way of passing target IDs.
 
 ### Returns :
 *nothing*
@@ -64,12 +67,12 @@ Check if one of the translations added supports that language.
 
 
 
-## `elizalina.fillDocument(langId)`
+## `elizalina.fillDocument(...langIds)`
 
 Translate the HTML tags which have the "elz" class.
 
-If `langId` is not specified, the first language of the navigator that has a translation
-available will be used.
+`langIds` are the languages to translate the document in, in order of preference.
+If none are specified, the languages of the navigator will be used.
 
 Any HTML tag (yes, you can translate the title of the page) with classes `elz` and `_some_key` will be filled
 with the text matching "some_key" (notice how the underscore is removed).
@@ -80,9 +83,9 @@ you will need to split the content into multiple tags using `<span>`s for the no
 
 ```html
 <div>ref
-  <span class="elz _text_before_link">Click</span>
+  <span class="elz _text-before-link">Click</span>
   <a class="elz _link" href="#ref">here</a>
-  <span class="elz _text_after_link">to download the latest version</span>
+  <span class="elz _text-after-link">to download the latest version</span>
 </div>
 ```
 
@@ -92,4 +95,19 @@ In addition, the `lang` attribute of the document is set to the language used.
 - `langId` *(string, optional)* : the id of the language to fill the document with
 
 ### Returns :
-A promise that fulfills when all the document has been translated.
+A promise that fulfills when all the document has been translated,
+containing a string with the language used.
+
+
+
+## `elizalina.setFallback(langId)`
+
+Sets the fallback language that is used if no translation could be found.
+
+if the function is called without arguments, it removes the fallback.
+
+### Parameters :
+- `langId` *(string)* : the id of the language (e.g. "en" or "en-US")
+
+### Returns :
+*nothing*
