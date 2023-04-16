@@ -16,7 +16,7 @@ Should work with :
 
 ### Hosting the script yourself
 
-Download the [latest minified version](https://github.com/louisdevie/elizalina/releases/download/v2.0.0/elizalina.min.js)
+Download the [latest minified version](https://github.com/louisdevie/elizalina/releases/download/v2.1.0/elizalina.min.js)
 and add it to the static resources of your site, then include it in the head of your pages :
 
 ```html
@@ -28,7 +28,7 @@ and add it to the static resources of your site, then include it in the head of 
 Alternatively, you can get the script from [jsDelivr](https://jsdelivr.com) :
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.0.0/elizalina.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.1.0/elizalina.min.js"></script>
 ```
 
 
@@ -63,16 +63,16 @@ Then, all the html tags will classes `elz` and `_my_key` will have their content
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.0.0/elizalina.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/louisdevie/elizalina@2.1.0/elizalina.min.js"></script>
 </head>
 <body>
-  <span class="elz _example">It works!</span>
+  <span class="elz _it-works">It works!</span>
+
+  <button onclick="elizalina.fillDocument('de');">Switch to german</button>
   
   <script>
-    // embed the translation in the document
-    elizalina.loadLanguageObject({"example": "Es klappt!"}, "de");
-    // force the page to be in german
-    elizalina.fillDocument("de");
+    // embedded language resource
+    elizalina.loadLanguageObject({"it-works": "Es klappt!"}, "de");
   </script>
 </body>
 </html>
